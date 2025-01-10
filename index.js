@@ -13,7 +13,15 @@ const io = new Server(server);
 app.use(express.static('public'));
 
 io.on('connection', (socket) => {
-    console.log('A user Connected');
+    console.log('a user connected');
+    socket.on('chat message', (msg) => {
+        socket.broadcast.emit('chat message', msg);
+        console.log('message: '+msg);
+    })
+
+    socket.on('disconnect', () =>{
+        console.log('User disconnected');
+    })
 })
 
 server.listen(5000, () => {
